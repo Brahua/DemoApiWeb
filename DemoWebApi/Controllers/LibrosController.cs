@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DemoWebApi.Contexts;
 using DemoWebApi.Entities;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DemoWebApi.Controllers
 {
@@ -21,18 +22,29 @@ namespace DemoWebApi.Controllers
             _context = context;
         }
 
-        // GET: api/Libros
+        // GET: api/libros
         [HttpGet]
+        // GET: /libros
+        [HttpGet("/libros")]
         public async Task<ActionResult<IEnumerable<Libro>>> GetLibros()
         {
             return await _context.Libros.Include(libro => libro.Autor).ToListAsync();
         }
 
-        // GET: api/Libros/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Libro>> GetLibro(int id)
+        // GET: api/libros/primer
+        [HttpGet("primer")]
+        public async Task<ActionResult<Libro>> GetPrimerLibro()
+        {
+            return await _context.Libros.Include(libro => libro.Autor).FirstAsync();
+        }
+
+        // GET: api/libros/5 o api/libros/5/**
+        [HttpGet("{id}/{param2?}")]
+        //[HttpGet("{id}/{param2=autor}")]
+        public async Task<ActionResult<Libro>> GetLibro(int id, string param2)
         {
             var libro = await _context.Libros.FindAsync(id);
+            Console.WriteLine(param2);
 
             if (libro == null)
             {
@@ -42,9 +54,37 @@ namespace DemoWebApi.Controllers
             return libro;
         }
 
-        // PUT: api/Libros/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // GET: api/libros/5?titulo=Libro1&autorId=2**
+        /*[HttpGet("{id}")]
+        public async Task<ActionResult<Libro>> GetLibroQueryString(int id, string titulo, int autorId)
+        {
+            var libro = await _context.Libros.FindAsync(id);
+            //Console.WriteLine(titulo, autorId);
+
+            if (libro == null)
+            {
+                return NotFound();
+            }
+
+            return libro;
+        }*/
+
+        // GET: api/libros/5?titulo
+        /*[HttpGet("{id}")]
+        public async Task<ActionResult<Libro>> GetLibroParameterRequired(int id, [BindRequired] string titulo)
+        {
+            var libro = await _context.Libros.FindAsync(id);
+            Console.WriteLine(titulo);
+
+            if (libro == null)
+            {
+                return NotFound();
+            }
+
+            return libro;
+        }*/
+
+        // PUT: api/libros/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLibro(int id, Libro libro)
         {
@@ -74,9 +114,7 @@ namespace DemoWebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Libros
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // POST: api/libros
         [HttpPost]
         public async Task<ActionResult<Libro>> PostLibro(Libro libro)
         {
@@ -86,7 +124,7 @@ namespace DemoWebApi.Controllers
             return CreatedAtAction("GetLibro", new { id = libro.Id }, libro);
         }
 
-        // DELETE: api/Libros/5
+        // DELETE: api/libros/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Libro>> DeleteLibro(int id)
         {

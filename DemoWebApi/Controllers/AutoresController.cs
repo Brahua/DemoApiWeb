@@ -1,6 +1,7 @@
 ﻿using DemoWebApi.Contexts;
 using DemoWebApi.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,22 +14,24 @@ namespace DemoWebApi.Controllers
     [ApiController]
     public class AutoresController : ControllerBase
     {
-        private readonly ApplicationDbContext Context;
+        private readonly ApplicationDbContext _context;
         public AutoresController(ApplicationDbContext Context)
         {
-            this.Context = Context;
+            _context = Context;
         }
 
+        // GET: api/autores
         [HttpGet]
-        public ActionResult<IEnumerable<Autor>> Get()
+        public async Task<ActionResult<IEnumerable<Autor>>> GetAutores()
         {
-            return Context.Autores.Include(autor => autor.Libros).ToList();
+            return await _context.Autores.Include(autor => autor.Libros).ToListAsync();
         }
 
-        [HttpGet("{id}", Name = "ObtenerAutor")]
-        public ActionResult<Autor> Get(int Id)
+        // GET: api/autores/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Autor>> GetAutor(int Id)
         {
-            Autor Autor = this.Context.Autores.Include(autor => autor.Libros).FirstOrDefault(autor => autor.Id == Id);
+            Autor Autor = await _context.Autores.Include(autor => autor.Libros).FirstOrDefaultAsync(autor => autor.Id == Id);
 
             if (Autor == null)
             {
@@ -38,8 +41,9 @@ namespace DemoWebApi.Controllers
             return Autor;
         }
 
+        // POST: api/autores
         [HttpPost]
-        public ActionResult<Autor> Post([FromBody] Autor Autor)
+        public async Task<ActionResult<Autor>> PostAutor([FromBody] Autor Autor)
         {
             //Esto ya no es necesario desde la versión 2.1 en adelante
             /*if (!ModelState.IsValid)
@@ -47,36 +51,59 @@ namespace DemoWebApi.Controllers
                 return NotFound();
             }*/
 
-            this.Context.Autores.Add(Autor);
-            this.Context.SaveChanges();
-            return new CreatedAtRouteResult("ObtenerAutor", new { id = Autor.Id }, Autor);
+            _context.Autores.Add(Autor);
+            await _context.SaveChangesAsync();
+            return new CreatedAtRouteResult("GetAutor", new { id = Autor.Id }, Autor);
         }
 
+        // PUT: api/autores/5
         [HttpPut("{id}")]
-        public ActionResult Put(int Id, [FromBody] Autor Autor)
+        public async Task<ActionResult> PutAutor(int Id, [FromBody] Autor Autor)
         {
             if (Id != Autor.Id)
             {
                 return BadRequest();
             }
 
-            this.Context.Entry(Autor).State = EntityState.Modified;
-            this.Context.SaveChanges();
+            _context.Entry(Autor).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AutorExists(Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            
             return Ok();
         }
 
+        // DELETE: api/autores/5
         [HttpDelete("{id}")]
-        public ActionResult<Autor> Delete(int Id)
+        public async Task<ActionResult<Autor>> DeleteAutor(int Id)
         {
-            Autor Autor = this.Context.Autores.FirstOrDefault(autor => autor.Id == Id);
+            Autor Autor = await _context.Autores.FindAsync(Id);
+
             if (Autor == null)
             {
                 return NotFound();
             }
 
-            this.Context.Autores.Remove(Autor);
-            this.Context.SaveChanges();
+            _context.Autores.Remove(Autor);
+            await _context.SaveChangesAsync();
             return Autor;
+        }
+
+        private bool AutorExists(int Id)
+        {
+            return _context.Autores.Any(autor => autor.Id == Id);
         }
 
     }
