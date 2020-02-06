@@ -1,5 +1,8 @@
 ﻿using DemoWebApi.Contexts;
 using DemoWebApi.Entities;
+using DemoWebApi.Helpers;
+using DemoWebApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +18,23 @@ namespace DemoWebApi.Controllers
     public class AutoresController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public AutoresController(ApplicationDbContext Context)
+        private readonly IClaseB _claseB;
+        public AutoresController(ApplicationDbContext Context, IClaseB ClaseB)
         {
+            _claseB = ClaseB;
             _context = Context;
+        }
+
+        [HttpGet("hosted")]
+        [ServiceFilter(typeof(FiltroAccion))]
+        public async Task<ActionResult<IEnumerable<HostedServiceLog>>> GetHosted()
+        {
+            return await _context.HostedServiceLogs.ToListAsync();
         }
 
         // GET: api/autores
         [HttpGet]
+        [ServiceFilter(typeof(FiltroAccion))]
         public async Task<ActionResult<IEnumerable<Autor>>> GetAutores()
         {
             return await _context.Autores.Include(autor => autor.Libros).ToListAsync();
@@ -29,6 +42,8 @@ namespace DemoWebApi.Controllers
 
         // GET: api/autores/5
         [HttpGet("{id}")]
+        [Authorize]
+        [ResponseCache(Duration = 30)]
         public async Task<ActionResult<Autor>> GetAutor(int Id)
         {
             Autor Autor = await _context.Autores.Include(autor => autor.Libros).FirstOrDefaultAsync(autor => autor.Id == Id);

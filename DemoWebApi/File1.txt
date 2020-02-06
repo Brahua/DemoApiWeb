@@ -1,0 +1,39 @@
+EscribirArchivoHostedService: Process Started
+EscribirArchivoHostedService: Process Stopped
+EscribirArchivoHostedService: Process Started
+EscribirArchivoHostedService: Process Stopped
+EscribirArchivoHostedService: Process Started
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:09
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:14
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:19
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:24
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:29
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:34
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:39
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:44
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:49
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:54
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:09:59
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:10:04
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:10:09
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:10:14
+EscribirArchivoHostedService: Process Stopped
+EscribirArchivoHostedService: Process Started
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:38:39
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:38:44
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:38:49
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:38:54
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:38:59
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:39:04
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:39:09
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:39:14
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:39:19
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:39:24
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:39:29
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:39:34
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:39:39
+EscribirArchivoHostedService: Process Stopped
+EscribirArchivoHostedService: Process Started
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:42:46
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:42:51
+EscribirArchivoHostedService: Escribiendo el 06/02/2020 02:42:56

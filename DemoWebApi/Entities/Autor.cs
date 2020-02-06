@@ -11,7 +11,7 @@ namespace DemoWebApi.Entities
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(10, ErrorMessage = "El campo debe tener {1} caracteres o menos.")]
+        //[StringLength(10, ErrorMessage = "El campo debe tener {1} caracteres o menos.")]
         [PrimeraLetraMayusculaAttribute]
         public string Nombre { get; set; }
         public List<Libro> Libros { get; set; }
